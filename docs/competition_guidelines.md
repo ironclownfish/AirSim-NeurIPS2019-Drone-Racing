@@ -86,10 +86,10 @@ The exact conditions for a team to qualify for the live tournament at the NeurIP
 
 ## Metrics and Scoring
 
-### Percentage of gates passed (**G**)
-This is the primary metric in the scoring strategy. Represented as a percentage of the total number of gates, the drone that has the higher percentage of gates crossed in a 2-drone race will always be the winner.
+### Nummber of gates passed (**G**)
+This is the primary metric in the scoring strategy. The drone that navigates through the most number of gates in a 2-drone race will always be the winner.
 
-G = Number of gates passed / Total number of gates * 100
+G = Number of gates passed / Total number of gates
 
 ### Lag time (**T**)
 For tiers I and III, in order to measure how well the participants perform with respect to the reference drone, another aspect of the score is determined by a *lag time*. At any instant, the lag time (or split time) is the difference between the participant drone’s lap time and the reference drone's lap time. If the participant drone is in second place, the lag time will be positive. The scoring metric only considers the lag time at the end of the race - when the chasing drone has crossed the final gate.
@@ -132,6 +132,25 @@ If a drone does not finish within the maximal lap time of a track, it is disqual
 If a drone-drone collision happens more than once, the chasing drone is disqualified.
 
 In case of a disqualification, the score is equivalent to achieving the maximal lap time.
+
+## Race Monitoring
+
+As a drone is navigating the racetrack, the race progress is streamed to a local log file, which can be found at ``Saved/Logs/RaceLogs/[TimeStamp]_[Level]_tier_[Tier#]_[Race#].log``. This log is updated with data such as the current odometry of the drone, number of gates passed/missed, times etc. It may be useful to continually process this log file client-side. The format of the data generated in this log file can be seen through this example:
+
+```
+A odometry_XYZRPY (75.000,-200.000,2882.102,0.000,0.000,90.000)
+A gates_passed 0
+A gates_missed 0
+A collision_count 0
+A time 8
+A penalty 0
+A disqualified 0
+A finished 0
+```
+
+We have an example python script (``monitoringScript.py``) to help you analyze the log file. This script demonstrates how one can detect when to start a new race, which may be useful for training scenarios. 
+
+Please note that in the qualification round, participants will be required to submit these generated race logs for evaluation.
 
 ## Live Tournament Rules
 The rules for the live tournament carried out during the NeuRIPS 2019 conference will be published after feedback from the qualification round is gathered.
